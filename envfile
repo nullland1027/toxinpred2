@@ -1,0 +1,7 @@
+#Path information for BLAST and MERCI commands
+#Path information of the data required to run the BLAST and MERCI
+#User can change the paths according to their machines
+BLAST:/usr/local/ncbi/blast/bin/blastp
+BLAST database:/Users/zhanghh/code/toxinpred2/Database/data
+MERCI:/Users/zhanghh/code/toxinpred2/progs/MERCI_motif_locator.pl
+MERCI motif file:/Users/zhanghh/code/toxinpred2/Database/pos_motif.txt
