@@ -98,8 +98,8 @@ if __name__ == '__main__':
         os.remove('seq.pred')
         os.remove('seq.out')
     else:
-        if os.path.exists('envfile'):
-            with open('envfile', 'r') as file:
+        if os.path.exists('origin_docs/envfile'):
+            with open('origin_docs/envfile', 'r') as file:
                 data = file.readlines()
             output = []
             for line in data:
