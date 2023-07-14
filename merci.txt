@@ -1,0 +1,61 @@
+MOTIF:  G C Y C G
+******
+0 positive sequences contain the motif
+
+MOTIF:  Y G C Y C
+******
+>test6
+ (sequence 6)
+    position(s): 20
+    motif(s): GCYCA
+1 positive sequences contain the motif
+
+MOTIF:  Y G C Y C G
+******
+0 positive sequences contain the motif
+
+MOTIF:  M K T L L
+******
+>test6
+ (sequence 6)
+    position(s): 6
+    motif(s): KTLLL
+1 positive sequences contain the motif
+
+MOTIF:  M K T L L L
+******
+>test6
+ (sequence 6)
+    position(s): 6
+    motif(s): KTLLLI
+1 positive sequences contain the motif
+
+MOTIF:  M K T L L L T
+******
+0 positive sequences contain the motif
+
+MOTIF:  T L L L T L
+******
+0 positive sequences contain the motif
+
+MOTIF:  K T L L L T L
+******
+0 positive sequences contain the motif
+
+MOTIF:  M K T L L L T L
+******
+0 positive sequences contain the motif
+
+MOTIF:  L L L T L V
+******
+0 positive sequences contain the motif
+
+
+
+************************************
+
+COVERAGE
+********
+test6 (3 motifs match)
+
+1 sequences covered in total

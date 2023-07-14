@@ -1,0 +1,8 @@
+Subject,ML Score,MERCI Score,BLAST Score,Hybrid Score,Prediction
+test1,0.731,0.0,-0.5,0.231,Non-Toxin
+test2,0.94,0.0,0.5,1.44,Toxin
+test3,0.99,0.0,0.5,1.49,Toxin
+test4,0.17,0.0,-0.5,-0.33,Non-Toxin
+test5,0.143,0.0,-0.5,-0.357,Non-Toxin
+test6,0.893,0.5,0.0,1.393,Toxin
+test7,0.143,0.0,-0.5,-0.357,Non-Toxin

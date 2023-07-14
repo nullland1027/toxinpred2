@@ -1,0 +1,8 @@
+Name,Hits,Prediction
+test1,0,Non-Toxin
+test2,0,Non-Toxin
+test3,0,Non-Toxin
+test4,0,Non-Toxin
+test5,0,Non-Toxin
+test6,3,Toxin
+test7,0,Non-Toxin

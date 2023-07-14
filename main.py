@@ -80,7 +80,7 @@ if __name__ == '__main__':
     f.close()
 
     # ======================= Prediction Module start from here =====================
-    if Model == 1:
+    if Model == 1:  # Only ML method
         aac_comp(seq, 'seq.aac')
         os.system("perl -pi -e 's/,$//g' seq.aac")  # 删除所有行末尾的逗号
         prediction('seq.aac', 'RF_model', 'seq.pred')
@@ -97,7 +97,8 @@ if __name__ == '__main__':
         os.remove('seq.aac')
         os.remove('seq.pred')
         os.remove('seq.out')
-    else:
+
+    elif Model == 2:  # Hybrid method
         if os.path.exists('origin_docs/envfile'):
             with open('origin_docs/envfile', 'r') as file:
                 data = file.readlines()
@@ -133,4 +134,7 @@ if __name__ == '__main__':
         df44 = round(df44, 3)
         df44.to_csv(result_filename, index=None)
 
-        delete_tmp_files()
+        # delete_tmp_files()
+    else:
+        print("必须选择规范的模型！")
+        sys.exit(1)

@@ -34,7 +34,7 @@ def aac_comp(input_file, output_file: str):
 
 def prediction(input_file, model, output_file: str):
     """
-    使用加载的模型对数据进行预测，将预测结果保存为 DataFrame 中的一列，再将此列保存到输出文件中。
+    使用joblib加载的模型对数据进行预测，将预测结果保存为 DataFrame 中的一列，再将此列保存到输出文件中。
     :param input_file:
     :param model:
     :param output_file:
@@ -49,6 +49,13 @@ def prediction(input_file, model, output_file: str):
 
 
 def class_assignment(input_file: str, threshold: float, output_filename: str):
+    """
+    分类规则，根据输入文件中的机器学习分数和阈值
+    :param input_file: 输入的文件名
+    :param threshold: 阈值
+    :param output_filename: 保存输出的文件名
+    :return:
+    """
     df1 = pd.read_csv(input_file, header=None)
     df1.columns = ['ML Score']
     cc = []

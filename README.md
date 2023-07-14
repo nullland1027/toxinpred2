@@ -23,11 +23,11 @@ Standalone version of ToxinPred2 is written in python3 and the following librari
 
 To know about the available option for the standalone, type the following command:
 ```
-toxinpred2.py -h
+python main.py -h
 ```
 To run the example, type the following command:
 ```
-toxinpred2.py -i peptide.fa
+python main.py -i peptide.fa
 
 ```
 where peptide.fa is a input FASTA file. This will predict toxic peptides in FASTA format. It will use other parameters by default. It will save output in "outfile.csv" in CSV (comma separated variables).
@@ -35,7 +35,7 @@ where peptide.fa is a input FASTA file. This will predict toxic peptides in FAST
 **Full Usage**: 
 ```
 Following is complete list of all options, you may get these options
-usage: toxinpred2.py [-h] 
+usage: python toxinpred2.py [-h] 
                      [-i INPUT]
                      [-o OUTPUT]
                      [-t THRESHOLD]
@@ -63,16 +63,16 @@ optional arguments:
 
 ```
 
-**Input File**: It allow users to provide input in two format; i) FASTA format (standard) (e.g. peptide.fa) and ii) Simple Format. In case of simple format, file should have one peptide sequence in a single line in single letter code (eg. peptide.seq). 
+**Input File**: It allows users to provide input in two format; i) FASTA format (standard) (e.g. peptide.fa) and ii) Simple Format. In case of simple format, file should have one peptide sequence in a single line in single letter code (eg. peptide.seq). 
 
 **Output File**: Program will save result in CSV format, in case user do not provide output file name, it will be stored in outfile.csv.
 
 **Threshold**: User should provide threshold between 0 and 1, please note score is proportional to toxic potential of peptide.
 
 **Models**: In this program, two models have been incorporated;  
-  i) Model1 for predicting given input peptide/protein sequence as toxic and non-toxic peptide/proteins using Random Forest based on amino-acid composition of the peptide/proteins; 
+  i) Model1 for predicting given input peptide/protein sequence as toxic and non-toxic peptide/proteins using **Random Forest based on amino-acid composition** of the peptide/proteins; 
 
-  ii) Model2 for predicting given input peptide/protein sequence as toxic and non-toxic peptide/proteins using Hybrid approach, which is the ensemble of Random Forest+ BLAST+ MERCI. It combines the scores generated from machine learning (RF), MERCI, and BLAST as Hybrid Score, and the prediction is based on Hybrid Score.
+  ii) Model2 for predicting given input peptide/protein sequence as toxic and non-toxic peptide/proteins using **Hybrid approach, which is the ensemble of Random Forest+ BLAST+ MERCI**. It combines the scores generated from machine learning (RF), MERCI, and BLAST as Hybrid Score, and the prediction is based on Hybrid Score.
 
 
 ToxinPred2 Package Files
