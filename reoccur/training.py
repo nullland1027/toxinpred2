@@ -32,7 +32,6 @@ if __name__ == '__main__':
 
     rfc = Classifier('RF')
 
-    # print("开始调参")
     # best_params = rfc.hyper_tuning(X_train, y_train, random_forest_params)
 
     print("更新模型超参数")
