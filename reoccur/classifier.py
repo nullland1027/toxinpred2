@@ -6,40 +6,70 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
-
-from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sklearn.base import clone
+from sklearn.model_selection import KFold, cross_validate
 from sklearn.metrics import make_scorer, confusion_matrix, matthews_corrcoef
+from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, matthews_corrcoef
 import numpy as np
+import joblib
 
 
 class Classifier:
-    def __init__(self, classifer: str):
-        if classifer == 'RF':
+    def __init__(self, classifier: str):
+        if classifier == 'RF':
             self.model = RandomForestClassifier()
-        elif classifer == 'XGB':
+        elif classifier == 'XGB':
             self.model = XGBClassifier()
-        elif classifer == 'KNN':
+        elif classifier == 'KNN':
             self.model = KNeighborsClassifier()
-        elif classifer == 'SVC':
+        elif classifier == 'SVC':
             self.model = SVC()
-        elif classifer == 'LR':
+        elif classifier == 'LR':
             self.model = LogisticRegression()
-        elif classifer == 'GNB':
+        elif classifier == 'GNB':
             self.model = GaussianNB()
-        elif classifer == 'DT':
+        elif classifier == 'DT':
             self.model = DecisionTreeClassifier()
         else:
-            raise Exception("Classifer must be designated!")
+            raise Exception("Classifier must be designated!")
+
+        self.hyper_params = None
 
     def hyper_tuning(self, X_train, y_train, params: dict):
         search = GridSearchCV(estimator=self.model, param_grid=params,
-                              scoring=['average_precision', 'accuracy', 'roc_auc', 'recall'], cv=5, refit='average_precision',
-                              n_jobs=-1, verbose=10)
+                              scoring=['average_precision', 'accuracy', 'roc_auc', 'recall'], cv=5,
+                              refit='average_precision',
+                              n_jobs=-1, verbose=4)
         search.fit(X_train, y_train)
-        return search.best_params_
+        self.hyper_params = search.best_params_
+        return self.hyper_params
 
     def update_model(self, hyper_params: dict):
+        """
+        更新模型的超参数，生成一个未经训练的副本
+        :param hyper_params: 最佳超参数
+        :return:
+        """
         self.model.set_params(**hyper_params)
+        self.model = clone(self.model)
+
+    def save_model(self, filename: str):
+        joblib.dump(self.model, filename)
+
+    def load_model(self, model_name: str):
+        self.model = joblib.load(model_name)
+
+    def predict(self, X, y):
+        pred_y = self.model.predict(X)
+        cm = confusion_matrix(y, pred_y)
+        tn, tp, fn, fp = cm.ravel()
+        return {
+            "Sens": recall_score(y, pred_y),
+            "Spec": tn / (tn + fp),
+            "Acc":  accuracy_score(y, pred_y),
+            "AUC":  roc_auc_score(y, pred_y),
+            "MCC":  matthews_corrcoef(y, pred_y),
+        }
 
     def show_metrics(self, X, y):
         """
@@ -58,11 +88,15 @@ class Classifier:
         }
 
         # Perform 5-fold cross-validation
-        cv_method = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        cv_method = KFold(n_splits=5, shuffle=True, random_state=42)
 
-        # Calculate performance metrics using cross_val_score
-        results = cross_val_score(self.model, X, y, cv=cv_method, scoring=scoring)
+        # Calculate performance metrics using cross_validate
+        results = cross_validate(self.model, X, y, cv=cv_method, scoring=scoring)
 
-        # Calculate the average of each metric across the folds
-        avg_results = {metric: np.mean(results[metric]) for metric in results.keys()}
-        return avg_results
+        return {
+            "test_Sens": np.mean(results["test_Sens"]),
+            "test_Spec": np.mean(results["test_Spec"]),
+            "test_Acc":  np.mean(results["test_Acc"]),
+            "test_AUC":  np.mean(results["test_AUC"]),
+            "test_MCC":  np.mean(results["test_MCC"]),
+        }

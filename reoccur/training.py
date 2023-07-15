@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 from Pfeature import pfeature
 from classifier import Classifier
-from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from config import random_forest_params
 
@@ -18,17 +17,35 @@ if __name__ == '__main__':
     # feature_generate("../dataset/Positive_alternate_dataset", "../dataset/pos_alternate_data.csv", 'acc')
     # feature_generate("../dataset/Negative_alternate_dataset", "../dataset/neg_alternate_data.csv", 'acc')
 
+    print("正在读取csv文件")
     pos_df, neg_df = pd.read_csv('../dataset/pos_alternate_data.csv'), pd.read_csv("../dataset/neg_alternate_data.csv")
+    print("正在构造数据集标签")
     pos_y, neg_y = np.array([1] * len(pos_df)), np.array([0] * len(neg_df))
 
     # Concat
+    print("正在拼接数据集")
     X = np.array(pd.concat([pos_df, neg_df], axis=0))
     y = np.concatenate([pos_y, neg_y])
 
+    print("准备数据集随机打乱")
     X_train, y_train = shuffle(X, y, random_state=42)
 
     rfc = Classifier('RF')
 
-    best_params = rfc.hyper_tuning(X_train, y_train, random_forest_params)
-    rfc.update_model(best_params)
+    # print("开始调参")
+    # best_params = rfc.hyper_tuning(X_train, y_train, random_forest_params)
+
+    print("更新模型超参数")
+    # rfc.update_model(best_params)
+
+    rfc.model.set_params(
+        **{'criterion': 'gini',
+           'max_depth': 20,
+           'max_leaf_nodes': None,
+           'min_samples_split': 2,
+           'n_estimators': 200}
+    )
+
     print(rfc.show_metrics(X_train, y_train))
+
+    rfc.save_model("RF_fitted.model")
