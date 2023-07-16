@@ -7,15 +7,15 @@ from config import random_forest_params
 
 
 def feature_generate(input_file: str, output_file: str, method: str):
-    if method == 'acc':
+    if method == 'aac':
         pfeature.aac_wp(file=input_file, out=output_file)
     elif method == 'PSSM':
         pass
 
 
 if __name__ == '__main__':
-    # feature_generate("../dataset/Positive_realistic_dataset", "../dataset/pos_realistic_data.csv", 'acc')
-    # feature_generate("../dataset/Negative_realistic_dataset", "../dataset/neg_realistic_data.csv", 'acc')
+    # feature_generate("../dataset/Positive_realistic_dataset", "../dataset/pos_realistic_data.csv", 'aac')
+    # feature_generate("../dataset/Negative_realistic_dataset", "../dataset/neg_realistic_data.csv", 'aac')
 
     # print("正在读取csv文件")
     # pos_df, neg_df = pd.read_csv('../dataset/pos_realistic_data.csv'), pd.read_csv("../dataset/neg_realistic_data.csv")

@@ -8,7 +8,11 @@ MOTIF:  Y G C Y C
  (sequence 6)
     position(s): 20
     motif(s): GCYCA
-1 positive sequences contain the motif
+>my_test8_test6_in_test7
+ (sequence 8)
+    position(s): 63
+    motif(s): GCYCA
+2 positive sequences contain the motif
 
 MOTIF:  Y G C Y C G
 ******
@@ -20,7 +24,11 @@ MOTIF:  M K T L L
  (sequence 6)
     position(s): 6
     motif(s): KTLLL
-1 positive sequences contain the motif
+>my_test8_test6_in_test7
+ (sequence 8)
+    position(s): 49
+    motif(s): KTLLL
+2 positive sequences contain the motif
 
 MOTIF:  M K T L L L
 ******
@@ -28,7 +36,11 @@ MOTIF:  M K T L L L
  (sequence 6)
     position(s): 6
     motif(s): KTLLLI
-1 positive sequences contain the motif
+>my_test8_test6_in_test7
+ (sequence 8)
+    position(s): 49
+    motif(s): KTLLLI
+2 positive sequences contain the motif
 
 MOTIF:  M K T L L L T
 ******
@@ -56,6 +68,7 @@ MOTIF:  L L L T L V
 
 COVERAGE
 ********
+my_test8_test6_in_test7 (3 motifs match)
 test6 (3 motifs match)
 
-1 sequences covered in total
+2 sequences covered in total
