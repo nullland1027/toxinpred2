@@ -8,10 +8,11 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.base import clone
 from sklearn.model_selection import KFold, cross_validate
-from sklearn.metrics import make_scorer, confusion_matrix, matthews_corrcoef
+from sklearn.metrics import make_scorer, confusion_matrix
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, matthews_corrcoef
 import numpy as np
 import joblib
+import json
 
 
 class Classifier:
@@ -66,10 +67,15 @@ class Classifier:
         return {
             "Sens": recall_score(y, pred_y),
             "Spec": tn / (tn + fp),
-            "Acc":  accuracy_score(y, pred_y),
-            "AUC":  roc_auc_score(y, pred_y),
-            "MCC":  matthews_corrcoef(y, pred_y),
+            "Acc": accuracy_score(y, pred_y),
+            "AUC": roc_auc_score(y, pred_y),
+            "MCC": matthews_corrcoef(y, pred_y),
         }
+
+    def output_model_params(self, filename):
+        json_data = json.dumps(self.hyper_params)
+        with open(filename, "w") as f:
+            f.write(json_data)
 
     def show_metrics(self, X, y):
         """
@@ -96,7 +102,7 @@ class Classifier:
         return {
             "test_Sens": np.mean(results["test_Sens"]),
             "test_Spec": np.mean(results["test_Spec"]),
-            "test_Acc":  np.mean(results["test_Acc"]),
-            "test_AUC":  np.mean(results["test_AUC"]),
-            "test_MCC":  np.mean(results["test_MCC"]),
+            "test_Acc": np.mean(results["test_Acc"]),
+            "test_AUC": np.mean(results["test_AUC"]),
+            "test_MCC": np.mean(results["test_MCC"]),
         }
