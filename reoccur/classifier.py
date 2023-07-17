@@ -40,7 +40,7 @@ class Classifier:
         search = GridSearchCV(estimator=self.model, param_grid=params,
                               scoring=['average_precision', 'accuracy', 'roc_auc', 'recall'], cv=5,
                               refit='average_precision',
-                              n_jobs=-1, verbose=4)
+                              n_jobs=-1, verbose=10)
         search.fit(X_train, y_train)
         self.hyper_params = search.best_params_
         return self.hyper_params
