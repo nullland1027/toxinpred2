@@ -4,7 +4,15 @@ import pandas as pd
 from Pfeature import pfeature
 from classifier import Classifier
 from sklearn.utils import shuffle
-from config import random_forest_params, logistic_regression_params
+from config import random_forest_params, logistic_regression_params, decision_tree_params
+from config import xgboost_params, knn_params, support_vector_classifier_params, gaussian_naive_bayes_params
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--dataset', type=str, required=True, choices=['main', 'alternate', 'realistic'],
+                    help="Train and validate dataset")
+parser.add_argument('-a', '--algorithm', type=str, required=True, choices=['RF', 'XGB', 'KNN', 'SVC', 'LR', 'GNB', 'DT'],
+                    help="The machine learning algotithm")
+args = parser.parse_args()  # args即为获取的参数str形式
 
 
 def feature_generate(input_file: str, output_file: str, method: str):
@@ -31,22 +39,43 @@ if __name__ == '__main__':
     # np.save("../dataset/alternate_data.npy", X)
     # np.save("../dataset/alternate_label.npy", y)
 
-    print("加载数据")
-    X = np.load("../dataset/realistic_data.npy")
-    y = np.load("../dataset/realistic_label.npy")
+    print("Prepare to load data")
+    X, y, search_params = None, None, None
+    if args.dataset == 'alternate':
+        X = np.load("../dataset/alternate_data.npy")
+        y = np.load("../dataset/alternate_label.npy")
+    elif args.dataset == 'realistic':
+        X = np.load("../dataset/realistic_data.npy")
+        y = np.load("../dataset/realistic_label.npy")
 
-    print("准备数据集随机打乱")
+    if args.algorithm == 'RF':
+        search_params = random_forest_params
+    elif args.algorithm == 'XGB':
+        search_params = xgboost_params
+    elif args.algorithm == 'KNN':
+        search_params = knn_params
+    elif args.algorithm == 'SVC':
+        search_params = support_vector_classifier_params
+    elif args.algorithm == 'LR':
+        search_params = logistic_regression_params
+    elif args.algorithm == 'GNB':
+        search_params = gaussian_naive_bayes_params
+    elif args.algorithm == 'DT':
+        search_params = decision_tree_params
+
+    print("Prepare to shuffle dataset")
     X_train, y_train = shuffle(X, y, random_state=42)
 
-    rfc = Classifier('LR')
+    rfc = Classifier(args.algorithm)
 
-    best_params = rfc.hyper_tuning(X_train, y_train, logistic_regression_params)
-    rfc.output_model_params("LR_realistic_params.json")
+    best_params = rfc.hyper_tuning(X_train, y_train, search_params)
+
+    rfc.output_model_params(args.algorithm + "_" + args.dataset + "_" + "_params.json")
     print("Best params", best_params)
 
-    print("更新模型超参数")
+    print("Update model hyper params")
     rfc.update_model(best_params)
 
     print(rfc.show_metrics(X_train, y_train))
 
-    rfc.save_model("LR_realistic.model")
+    rfc.save_model(args.algorithm + "_" + args.dataset + ".model")
