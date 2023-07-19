@@ -13,11 +13,13 @@ xgboost_params = {
     'n_estimators':     [100, 200, 500],
     'max_depth':        [20, 50, 100, None],
     'learning_rate':    [0.01, 0.05, 0.1],
-    'subsample':        [0.1, 0.5, 0.8],
+    'subsample':        [0.1, 0.5],  # for imbalanced data
     'min_child_weight': [0.1, 1, 10, 100],
-    'colsample_bytree': [0.1, 0.5, 0.8],
-    'reg_alpha':        [0.1, 1, 10],
-    'reg_lambda':       [0.1, 1, 10],
+    'max_delta_step':   [0, 0.1, 0.5, 1],  # for imbalanced data
+    'scale_pos_weight': [10],  # for imbalanced data
+    'colsample_bytree': [0.1, 0.5],  # for imbalanced data
+    'reg_alpha':        [10],  # for imbalanced data
+    'reg_lambda':       [10],  # for imbalanced data
 }
 
 knn_params = {
@@ -29,11 +31,12 @@ knn_params = {
 }
 
 support_vector_classifier_params = {
-    'C':      [1, 10, 50],
+    'C':      [1, 10, 50, 100],
     'kernel': ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'],
-    'degree': [3, 4],
-    'gamma':  [],
-    'coef0':  []
+    'degree': [3, 4, 5, 8, 10, 20],
+    'gamma':  ['scale', 'auto'],
+    'coef0':  [-0.8, -0.5, 0.0, 0.5, 0.8],
+
 }
 
 
