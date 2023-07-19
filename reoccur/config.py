@@ -32,8 +32,8 @@ knn_params = {
 
 support_vector_classifier_params = {
     'C':      [1, 10, 50, 100],
-    'kernel': ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'],
-    'degree': [3, 4, 5, 8, 10, 20],
+    'kernel': ['linear', 'rbf', 'sigmoid'],
+    'degree': [3, 4, 5],
     'gamma':  ['scale', 'auto'],
     'coef0':  [-0.8, -0.5, 0.0, 0.5, 0.8],
 
