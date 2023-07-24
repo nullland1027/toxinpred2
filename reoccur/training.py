@@ -1,5 +1,6 @@
 import numpy as np
 import argparse
+import os
 import pandas as pd
 from Pfeature import pfeature
 from classifier import Classifier
@@ -70,7 +71,7 @@ if __name__ == '__main__':
 
     best_params = rfc.hyper_tuning(X_train, y_train, search_params)
 
-    rfc.output_model_params(args.algorithm + "_" + args.dataset + "_" + "_params.json")
+    rfc.output_model_params(os.path.join("params", args.algorithm + "_" + args.dataset + "_" + "_params.json"))
     print("Best params", best_params)
 
     print("Update model hyper params")
@@ -78,4 +79,4 @@ if __name__ == '__main__':
 
     print(rfc.show_metrics(X_train, y_train))
 
-    rfc.save_model(args.algorithm + "_" + args.dataset + ".model")
+    rfc.save_model(os.path.join("models", args.algorithm + "_" + args.dataset + ".model"))
