@@ -50,7 +50,8 @@ logistic_regression_params = {
 }
 
 gaussian_naive_bayes_params = {
-
+    "priors": [[0.1, 0.9], [0.5, 0.5], [0.55, 0.45], [0.56, 0.44], [0.58, 0.42], [0.6, 0.4], [0.62, 0.38], None],
+    "var_smoothing": [1e-15, 1e-14, 1e-13, 1e-12, 1e-11, 1e-10, 1e-9]
 }
 
 decision_tree_params = {

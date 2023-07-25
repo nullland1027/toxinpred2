@@ -2,7 +2,7 @@ import numpy as np
 import argparse
 import os
 import pandas as pd
-from Pfeature import pfeature
+# from Pfeature import pfeature
 from classifier import Classifier
 from sklearn.utils import shuffle
 from config import random_forest_params, logistic_regression_params, decision_tree_params
@@ -16,11 +16,11 @@ parser.add_argument('-a', '--algorithm', type=str, required=True, choices=['RF',
 args = parser.parse_args()  # args即为获取的参数str形式
 
 
-def feature_generate(input_file: str, output_file: str, method: str):
-    if method == 'aac':
-        pfeature.aac_wp(file=input_file, out=output_file)
-    elif method == 'PSSM':
-        pass
+# def feature_generate(input_file: str, output_file: str, method: str):
+#     if method == 'aac':
+#         pfeature.aac_wp(file=input_file, out=output_file)
+#     elif method == 'PSSM':
+#         pass
 
 
 if __name__ == '__main__':
