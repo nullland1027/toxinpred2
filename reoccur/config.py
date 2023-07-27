@@ -36,7 +36,7 @@ support_vector_classifier_params = {
     'degree': [3, 4, 5],
     'gamma':  ['auto'],
     'coef0':  [-0.8, -0.5, 0.0, 0.5, 0.8],
-
+    "max_iter": [1000000]
 }
 
 

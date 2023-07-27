@@ -24,7 +24,7 @@ class Classifier:
         elif classifier == 'KNN':
             self.model = KNeighborsClassifier()
         elif classifier == 'SVC':
-            self.model = SVC()
+            self.model = SVC(C=0.1, coef0=0.5, gamma="auto", kernel="rbf", probability=True, shrinking=False)
         elif classifier == 'LR':
             self.model = LogisticRegression()
         elif classifier == 'GNB':

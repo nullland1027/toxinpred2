@@ -5,16 +5,19 @@ import pandas as pd
 # from Pfeature import pfeature
 from classifier import Classifier
 from sklearn.utils import shuffle
+from sklearn.model_selection import KFold
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score, recall_score, roc_auc_score, matthews_corrcoef
 from config import random_forest_params, logistic_regression_params, decision_tree_params
 from config import xgboost_params, knn_params, support_vector_classifier_params, gaussian_naive_bayes_params
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--dataset', type=str, required=True, choices=['main', 'alternate', 'realistic'],
                     help="Train and validate dataset")
-parser.add_argument('-a', '--algorithm', type=str, required=True, choices=['RF', 'XGB', 'KNN', 'SVC', 'LR', 'GNB', 'DT'],
+parser.add_argument('-a', '--algorithm', type=str, required=True,
+                    choices=['RF', 'XGB', 'KNN', 'SVC', 'LR', 'GNB', 'DT'],
                     help="The machine learning algotithm")
 args = parser.parse_args()  # args即为获取的参数str形式
-
 
 # def feature_generate(input_file: str, output_file: str, method: str):
 #     if method == 'aac':
@@ -43,11 +46,11 @@ if __name__ == '__main__':
     print("Prepare to load data")
     X, y, search_params = None, None, None
     if args.dataset == 'alternate':
-        X = np.load("../dataset/alternate_data.npy")
-        y = np.load("../dataset/alternate_label.npy")
+        X = np.load("../dataset/feature_acc/alternate_data.npy")
+        y = np.load("../dataset/feature_acc/alternate_label.npy")
     elif args.dataset == 'realistic':
-        X = np.load("../dataset/realistic_data.npy")
-        y = np.load("../dataset/realistic_label.npy")
+        X = np.load("../dataset/feature_acc/realistic_data.npy")
+        y = np.load("../dataset/feature_acc/realistic_label.npy")
 
     if args.algorithm == 'RF':
         search_params = random_forest_params
