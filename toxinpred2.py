@@ -216,4 +216,4 @@ def delete_tmp_files():
     os.remove('merci_hybrid.csv')
     os.remove('blast_hybrid.csv')
     os.remove('merci.txt')
-    os.remove('Sequence_1')
+    os.remove('tmp_files/Sequence_1')

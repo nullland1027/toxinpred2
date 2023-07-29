@@ -76,7 +76,7 @@ if __name__ == '__main__':
 
     seqid_1 = list(map(">{}".format, seqid))
     CM = pd.concat([pd.DataFrame(seqid_1), pd.DataFrame(seq)], axis=1)
-    CM.to_csv("Sequence_1", header=False, index=False, sep="\n")
+    CM.to_csv("tmp_files/Sequence_1", header=False, index=False, sep="\n")
     f.close()
 
     # ======================= Prediction Module start from here =====================
@@ -122,13 +122,13 @@ if __name__ == '__main__':
         prediction('seq.aac', 'RF_model', 'seq.pred')
 
         # 调用BLAST
-        os.system(blastp + " -task blastp -db " + blastdb + " -query " + "Sequence_1" + " -out RES_1_6_6.out -outfmt 6 -evalue 0.000001")
-        os.system(merci + " -p " + "Sequence_1" + " -i " + motifs + " -o merci.txt")
-        MERCI_Processor('merci.txt', 'merci_output.csv', seqid)
-        Merci_after_processing('merci_output.csv', 'merci_hybrid.csv')
-        BLAST_processor('RES_1_6_6.out', 'blast_hybrid.csv', seqid)
-        hybrid('seq.pred', seqid, 'merci_hybrid.csv', 'blast_hybrid.csv', Threshold, 'final_output')
-        df44 = pd.read_csv('final_output')
+        os.system(blastp + " -task blastp -db " + blastdb + " -query " + "tmp_files/Sequence_1" + " -out tmp_files/RES_1_6_6.out -outfmt 6 -evalue 0.000001")
+        os.system(merci + " -p " + "tmp_files/Sequence_1" + " -i " + motifs + " -o tmp_files/merci.txt")
+        MERCI_Processor('tmp_files/merci.txt', 'tmp_files/merci_output.csv', seqid)
+        Merci_after_processing('tmp_files/merci_output.csv', 'tmp_files/merci_hybrid.csv')
+        BLAST_processor('tmp_files/RES_1_6_6.out', 'tmp_files/blast_hybrid.csv', seqid)
+        hybrid(' tmp_files/seq.pred', seqid, 'tmp_files/merci_hybrid.csv', 'tmp_files/blast_hybrid.csv', Threshold, 'tmp_files/final_output')
+        df44 = pd.read_csv('tmp_files/final_output')
         if dplay == 1:
             df44 = df44.loc[df44.Prediction == "Toxin"]
         df44 = round(df44, 3)
