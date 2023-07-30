@@ -1,28 +1,32 @@
+import numpy as np
 from Bio import SeqIO
 import tempfile
+import numpy as pd
 import os
+import pickle
+from Bio import SeqIO
 
 
-def write_sequences_to_temp_files(fasta_file):
-    """
-    从fasta文件中读取每一条序列并存储至临时文件，
-    :param fasta_file:
-    :return:
-    """
-    with open(fasta_file, "r") as handle:
-        for record in SeqIO.parse(handle, "fasta"):
-            # 创建临时文件
-            temp_file = tempfile.NamedTemporaryFile(delete=True)
-            with open(temp_file.name, 'w') as f:
-                # 写入序列
-                SeqIO.write(record, f, "fasta")
+def save_sequences(fasta_file):
+    all_mat = []
+    # 读取FASTA文件
+    records = SeqIO.parse(fasta_file, "fasta")
 
-            tmp_path = temp_file.name
-            seq_id = record.id
-            print(f"Sequence {seq_id} written to {tmp_path}")
-
-
-fasta_file = "../test_data/protein.fa"  # 你的fasta文件路径
+    # 遍历所有记录
+    for record in records:
+        # 生成文件名，使用序列的ID
+        file_name = f"{record.id}.fasta"
+        path = os.path.join("..", "dataset", "feature_pssm", file_name)
+        # 将序列写入文件
+        SeqIO.write(record, path, "fasta")
+        os.system(
+            f"psiblast -query {path} -db ../Database/data -evalue 0.001 -num_iterations 3 -out_ascii_pssm ../dataset/feature_pssm/out.pssm")
+        mat = extract_pssm_matrix("../dataset/feature_pssm/out.pssm")
+        os.remove(path)
+        os.remove("../dataset/feature_pssm/out.pssm")
+        all_mat.append(mat)
+        break
+    return all_mat
 
 
 # write_sequences_to_temp_files(fasta_file)
@@ -40,11 +44,14 @@ def extract_pssm_matrix(pssm_file):
             # 我们只关心前20列，这些列包含了20个标准氨基酸的分数
             scores = line.split()[2:22]
             # 将分数转换为整数，并添加到矩阵中
-            matrix.append([int(score) for score in scores])
+            matrix.append([score for score in scores])
     return matrix
 
 
-pssm_file = "../dataset/feature_pssm/test_pos_main.pssm"  # 你的PSSM文件路径
-matrix = extract_pssm_matrix(pssm_file)
-for i in matrix:
-    print(i)
+if __name__ == '__main__':
+    matrix = save_sequences("../dataset/Positive_main_dataset")
+    # with open("matrix.pkl", "wb") as f:
+    #     pickle.dump(matrix, f)
+    for i in matrix:
+        for j in i:
+            print(j)

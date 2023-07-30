@@ -93,6 +93,8 @@ if __name__ == '__main__':
         df4.columns = ['ID', 'Sequence', 'ML_Score', 'Prediction']
         if dplay == 1:
             df4 = df4.loc[df4.Prediction == "Toxin"]
+
+        print(result_filename)
         df4.to_csv(result_filename, index=False)
         os.remove('seq.aac')
         os.remove('seq.pred')

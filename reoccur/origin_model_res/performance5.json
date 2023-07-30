@@ -1,0 +1,5 @@
+{
+  "Main":      {"Sens": 1.0, "Spec": 1.0,  "Acc": 1.0,  "AUC": 1.0,  "MCC": 1.0},
+  "Alternate": {"Sens": 1.0, "Spec": 0.95, "Acc": 0.98, "AUC": 0.98, "MCC": 0.96},
+  "Realistic": {"Sens": 1.0, "Spec": 0.96, "Acc": 0.96, "AUC": 0.98, "MCC": 0.82}
+}
