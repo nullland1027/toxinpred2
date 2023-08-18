@@ -7,29 +7,30 @@ import pickle
 from Bio import SeqIO
 
 
-def save_sequences(fasta_file):
-    all_mat = []
+def create_pssm(fasta_file):
+    """
+    读取多条序列的fasta文件，在指定文件夹下生成每一个序列的pssm文件
+    :param fasta_file:
+    :return:
+    """
     # 读取FASTA文件
     records = SeqIO.parse(fasta_file, "fasta")
 
     # 遍历所有记录
-    for record in records:
+    for i in range(len(records)):
+        record = records[i]
         # 生成文件名，使用序列的ID
         file_name = f"{record.id}.fasta"
         path = os.path.join("..", "dataset", "feature_pssm", file_name)
         # 将序列写入文件
         SeqIO.write(record, path, "fasta")
         os.system(
-            f"psiblast -query {path} -db ../Database/data -evalue 0.001 -num_iterations 3 -out_ascii_pssm ../dataset/feature_pssm/out.pssm")
-        mat = extract_pssm_matrix("../dataset/feature_pssm/out.pssm")
-        os.remove(path)
-        os.remove("../dataset/feature_pssm/out.pssm")
-        all_mat.append(mat)
-        break
-    return all_mat
+            f"""psiblast -query {path} -db /Users/zhanghaohan/code/toxinpred2/Database/data \\
+            -evalue 0.001 \\
+            -num_iterations 3 \\
+            -out_ascii_pssm /Users/zhanghaohan/code/toxinpred2/dataset/feature_pssm/out_{str(i)}.pssm""")
 
 
-# write_sequences_to_temp_files(fasta_file)
 def extract_pssm_matrix(pssm_file):
     """
     从PSSM文件中，提取前20列纯数字矩阵
@@ -49,9 +50,4 @@ def extract_pssm_matrix(pssm_file):
 
 
 if __name__ == '__main__':
-    matrix = save_sequences("../dataset/Positive_main_dataset")
-    # with open("matrix.pkl", "wb") as f:
-    #     pickle.dump(matrix, f)
-    for i in matrix:
-        for j in i:
-            print(j)
+    pass
