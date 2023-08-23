@@ -1,6 +1,7 @@
 import numpy as np
 import argparse
 import os
+from Pfeature import pfeature
 import pandas as pd
 # from Pfeature import pfeature
 from classifier import Classifier
@@ -30,18 +31,18 @@ if __name__ == '__main__':
     # feature_generate("../dataset/Positive_realistic_dataset", "../dataset/pos_realistic_data.csv", 'aac')
     # feature_generate("../dataset/Negative_realistic_dataset", "../dataset/neg_realistic_data.csv", 'aac')
 
-    # print("正在读取csv文件")
-    # pos_df, neg_df = pd.read_csv('../dataset/pos_alternate_data.csv'), pd.read_csv("../dataset/neg_alternate_data.csv")
-    # print("正在构造数据集标签")
-    # pos_y, neg_y = np.array([1] * len(pos_df)), np.array([0] * len(neg_df))
-    #
-    # # Concat
-    # print("正在拼接数据集")
-    # X = np.array(pd.concat([pos_df, neg_df], axis=0))
-    # y = np.concatenate([pos_y, neg_y])
-    #
-    # np.save("../dataset/alternate_data.npy", X)
-    # np.save("../dataset/alternate_label.npy", y)
+    print("正在读取csv文件")
+    pos_df, neg_df = pd.read_csv('../dataset/pos_alternate_data.csv'), pd.read_csv("../dataset/neg_alternate_data.csv")
+    print("正在构造数据集标签")
+    pos_y, neg_y = np.array([1] * len(pos_df)), np.array([0] * len(neg_df))
+
+    # Concat
+    print("正在拼接数据集")
+    X = np.array(pd.concat([pos_df, neg_df], axis=0))
+    y = np.concatenate([pos_y, neg_y])
+
+    np.save("../dataset/alternate_data.npy", X)
+    np.save("../dataset/alternate_label.npy", y)
 
     print("Prepare to load data")
     X, y, search_params = None, None, None

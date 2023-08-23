@@ -1,15 +1,20 @@
-import numpy as np
-from Bio import SeqIO
-import tempfile
-import numpy as pd
 import os
-import pickle
+import argparse
 from Bio import SeqIO
+from pssmpro import pssmpro
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-i", "--inputfile", required=True)
+parser.add_argument("-o", "--outputfile", required=True)
+args = parser.parse_args()  # args即为获取的参数str形式
 
 
-def create_pssm(fasta_file):
+def create_pssm(fasta_file, out_filename):
     """
-    读取多条序列的fasta文件，在指定文件夹下生成每一个序列的pssm文件
+    读取多条序列的fasta文件；
+    生成单独序列的fasta文件；
+    在指定文件夹下生成当前序列的pssm文件；
+    删除当前的fasta文件
     :param fasta_file:
     :return:
     """
@@ -17,18 +22,20 @@ def create_pssm(fasta_file):
     records = SeqIO.parse(fasta_file, "fasta")
 
     # 遍历所有记录
-    for i in range(len(records)):
-        record = records[i]
+    for i, record in enumerate(records):
         # 生成文件名，使用序列的ID
         file_name = f"{record.id}.fasta"
-        path = os.path.join("..", "dataset", "feature_pssm", file_name)
+        path = os.path.join("/Users", "zhanghaohan", "code", "toxinpred2", "dataset", "feature_pssm", file_name)  # fasta file path
         # 将序列写入文件
         SeqIO.write(record, path, "fasta")
         os.system(
-            f"""psiblast -query {path} -db /Users/zhanghaohan/code/toxinpred2/Database/data \\
-            -evalue 0.001 \\
-            -num_iterations 3 \\
-            -out_ascii_pssm /Users/zhanghaohan/code/toxinpred2/dataset/feature_pssm/out_{str(i)}.pssm""")
+            f"""psiblast -query {path} \\
+            -db /Users/zhanghaohan/code/toxinpred2/Database/data \\
+            -evalue 0.1 \\
+            -num_iterations 5 \\
+            -num_threads 4 \\
+            -out_ascii_pssm /Users/zhanghaohan/code/toxinpred2/dataset/feature_pssm/{out_filename}_{"{:04d}".format(i + 1)}.pssm""")
+        os.remove(path)
 
 
 def extract_pssm_matrix(pssm_file):
@@ -50,4 +57,10 @@ def extract_pssm_matrix(pssm_file):
 
 
 if __name__ == '__main__':
-    pass
+    create_pssm(args.inputfile, args.outputfile)
+
+    pssm_dir_path = "/Users/zhanghaohan/code/toxinpred2/dataset/feature_pssm/neg_main"
+    feature_type = "aac_pssm"
+    output_dir_path = "/Users/zhanghaohan/code/toxinpred2/dataset/feature_pssm"
+
+    pssmpro.get_feature(pssm_dir_path, "neg_main", feature_type, output_dir_path)
