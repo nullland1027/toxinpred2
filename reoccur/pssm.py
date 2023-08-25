@@ -3,10 +3,10 @@ import argparse
 from Bio import SeqIO
 from pssmpro import pssmpro
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-i", "--inputfile", required=True)
-parser.add_argument("-o", "--outputfile", required=True)
-args = parser.parse_args()  # args即为获取的参数str形式
+# parser = argparse.ArgumentParser()
+# parser.add_argument("-i", "--inputfile", required=True)
+# parser.add_argument("-o", "--outputfile", required=True)
+# args = parser.parse_args()  # args即为获取的参数str形式
 
 
 def create_pssm(fasta_file, out_filename):
@@ -57,10 +57,10 @@ def extract_pssm_matrix(pssm_file):
 
 
 if __name__ == '__main__':
-    create_pssm(args.inputfile, args.outputfile)
+    # create_pssm(args.inputfile, args.outputfile)
 
     pssm_dir_path = "/Users/zhanghaohan/code/toxinpred2/dataset/feature_pssm/neg_main"
-    feature_type = "aac_pssm"
+    feature_type = "pssm_composition"
     output_dir_path = "/Users/zhanghaohan/code/toxinpred2/dataset/feature_pssm"
 
     pssmpro.get_feature(pssm_dir_path, "neg_main", feature_type, output_dir_path)

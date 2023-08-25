@@ -1,1 +1,0 @@
-{"algorithm": "ball_tree", "leaf_size": 10, "n_neighbors": 20, "p": 2, "weights": "distance"}

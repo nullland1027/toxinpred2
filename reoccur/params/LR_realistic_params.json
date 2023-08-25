@@ -1,1 +1,0 @@
-{"C": 10, "l1_ratio": 0.6, "max_iter": 200, "penalty": "l2", "solver": "saga", "tol": 0.0001}
